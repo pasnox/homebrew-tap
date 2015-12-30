@@ -12,14 +12,15 @@ class GammarayQt5 < Formula
   depends_on "cmake" => :build
 
   def install
-    system "cmake", ".", "-DGAMMARAY_ENFORCE_QT4_BUILD=false", *std_cmake_args
+    system "cmake", "../gm-qt5", "-DGAMMARAY_ENFORCE_QT4_BUILD=false", *std_cmake_args
     system "make"
     system "make", "install"
     system "make", "clean"
     system "rm", "CMakeCache.txt"
-    system "cmake", ".", "-DGAMMARAY_ENFORCE_QT4_BUILD=true", "-DGAMMARAY_PROBE_ONLY_BUILD=ON", "-DQT_QMAKE_EXECUTABLE=/usr/local/Cellar/qt/4.8.7_2/bin/qmake", *std_cmake_args
+    system "cmake", "../gm-qt4", "-DGAMMARAY_ENFORCE_QT4_BUILD=true", "-DGAMMARAY_PROBE_ONLY_BUILD=ON", "-DQT_QMAKE_EXECUTABLE=/usr/local/Cellar/qt/4.8.7_2/bin/qmake", *std_cmake_args
     system "make"
     system "make", "install"
+    system "rm", "-fr", "../gm-qt5", "../gm-qt4"
   end
 
   test do
