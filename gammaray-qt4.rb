@@ -6,13 +6,18 @@ class GammarayQt4 < Formula
   head "https://github.com/KDAB/GammaRay.git"
 
   depends_on "qt" => "with-d-bus"
+  depends_on "qt5" => "with-d-bus"
   depends_on "graphviz"
   depends_on "cmake" => :build
 
   def install
-    system "cmake", ".", *std_cmake_args
-    system "make"
-    system "make", "install"
+  system "cmake", ".", "-DGAMMARAY_ENFORCE_QT4_BUILD=true", *std_cmake_args
+  system "make"
+  system "make", "install"
+  system "make", "clean"
+  system "cmake", ".", "-DGAMMARAY_ENFORCE_QT4_BUILD=false", "-DGAMMARAY_PROBE_ONLY_BUILD=ON", *std_cmake_args
+  system "make"
+  system "make", "install"
   end
 
   test do
